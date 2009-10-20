@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block content %}
+
+    <h2>{% blocktrans with month|date:'F Y' as entries_month %}Entries from {{ entries_month }}{% endblocktrans %}</h2>
+    {% include 'entries/entries.html' %}
+    
+{% endblock %}

@@ -1,0 +1,32 @@
+{% load i18n %}
+{% load comments %}
+
+{% for object in object_list %}
+    <div class="entry">
+        <h3>{{ object.title }}</h3>
+
+        <div class="time">
+            {% blocktrans with object.creation_time|date:'F d, Y h:i a' as creation_time and object.author.first_name as first_name and object.author.last_name as last_name %}Entry published {{ creation_time }} by {{ first_name }} {{ last_name }}{% endblocktrans %}
+        </div>
+
+        <div class="tags">
+            {% trans "Tags" %}:
+            {% for tag in object.tags.all %}
+                <a href="{% url entries-archive-custom 'tags' tag.slug 1 %}">{{ tag.name }}</a>
+            {% endfor %}
+        </div>
+
+        <div class="categories">
+            {% trans "Categories" %}:
+            {% for category in object.categories.all %}
+                <a href="{% url entries-archive-custom 'categories' category.slug 1 %}">{{ category.name }}</a>
+            {% endfor %}
+        </div>
+        
+        <div class="content">{{ object.content|linebreaks|truncatewords_html:'100' }}</div>
+
+        {% get_comment_count for object as comment_count %}
+        <a class="read-more" href="{% url entries-detail object.slug %}">{% trans "Read more" %}</a> |
+        <a class="read-more" href="{% url entries-detail object.slug %}#comments">{% blocktrans %}{{ comment_count }} responses{% endblocktrans %}</a>
+    </div>
+{% endfor %}

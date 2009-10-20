@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <h2>{{ title }}</h2>
+
+    <ul class="entry-index">
+    {% for object in object_list %}
+        <li>
+            <a href="{% url entries-archive-custom option object.slug 1 %}">{{ object }}</a>
+            ({{ object.entries_count }}) {{ object.description }}
+        </li>
+    {% endfor %}
+    </ul>
+    
+{% endblock %}

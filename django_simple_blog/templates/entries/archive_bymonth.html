@@ -1,0 +1,3 @@
+{% for month in months %}
+    <li><a href="{% url entries-archive-bymonth month|date:'Y' month|date:'F' %}">{{ month|date:"F Y" }}</a></li>
+{% endfor %}

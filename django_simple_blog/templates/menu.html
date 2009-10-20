@@ -1,0 +1,41 @@
+{% load i18n %}
+{% load entries_tags %}
+{% load links_tags %}
+
+<div id="home" class="section">
+    <h4>{% trans "Main" %}</h4>
+    <ul>
+        <li><a href="{% url entries-main %}">{% trans "Entries" %}</a></li>
+        <li><a href="/about/">{% trans "About" %}</a></li>
+        <li><a href="{% url contact-form %}">{% trans "Contact" %}</a></li>
+    </ul>
+</div>
+
+<div id="archives" class="section">
+    <h4>{% trans "Entries archive" %}</h4>
+    <ul>
+        {% show_archive_bymonth 10 %}
+        <li class="clean"></li>
+        <li><a href="{% url entries-index-custom 'categories' %}">{% trans "by category" %}</a></li>
+        <li><a href="{% url entries-index-custom 'tags' %}">{% trans "by tag" %}</a></li>
+    </ul>
+</div>
+
+<div id="tags" class="section">
+    <h4>{% trans "Tags" %}</h4>
+    {% show_tags 30 %}
+</div>
+
+{% show_links %}
+
+<div id="certificates" class="section">
+    <a href="http://validator.w3.org/check?uri=referer">
+        <img src="{{ MEDIA_URL }}images/valid-html401-blue.png" alt="Valid HTML 4.01 Transitional" />
+    </a>
+    <a href="http://jigsaw.w3.org/css-validator/check/referer">
+        <img src="{{ MEDIA_URL }}images/vcss-blue.gif" alt="Valid CSS" />
+    </a>
+    <a href="http://www.djangoproject.com">
+        <img src="{{ MEDIA_URL }}images/djangopowered.gif" alt="Django powered" />
+    </a>
+</div>

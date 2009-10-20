@@ -1,0 +1,28 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <title>{% block title %}Django Simple Blog{% endblock %}</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="keywords" content="" />
+        <meta name="description" content="" />
+        <link rel="stylesheet" href="{{ MEDIA_URL }}css/basic.css" type="text/css" media="screen, projection" />
+    </head>
+    <body id="website">
+        <div id="container">
+            <div class="content">
+                <div id="header">
+                    <h1 id="title"><a href="">Django Simple Blog</a></h1>
+                </div>
+
+                <div id="main">
+                    {% block content %}{% endblock %}
+                </div>
+
+                <div id="footer"></div>
+            </div>
+            <div id="menu">
+                {% include 'menu.html' %}
+            </div>
+        </div>
+    </body>
+</html>

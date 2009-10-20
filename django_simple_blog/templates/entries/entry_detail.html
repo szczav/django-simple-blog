@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load comments %}
+
+{% block content %}
+
+    <div class="entry">
+        <h2>{{ object.title }}</h2>
+
+        <div class="time">
+            {% blocktrans with object.creation_time|date:'F d, Y h:i a' as creation_time %}Entry published {{ creation_time }}{% endblocktrans %}
+        </div>
+
+        <div class="tags">
+            {% trans "Tags" %}:
+            {% for tag in object.tags.all %}
+                <a href="{% url entries-archive-custom 'tags' tag.slug 1 %}">{{ tag.name }}</a>
+            {% endfor %}
+        </div>
+
+        <div class="categories">
+            {% trans "Categories" %}:
+            {% for category in object.categories.all %}
+                <a href="{% url entries-archive-custom 'categories' category.slug 1 %}">{{ category.name }}</a>
+            {% endfor %}
+        </div>
+
+        <div class="content">{{ object.content|linebreaks }}</div>
+    </div>
+
+    <div class="comments">
+        {% get_comment_count for object as comment_count %}
+        <h3 id="comments">Responses ({{ comment_count }})</h3>
+
+        {% get_comment_list for object as comment_list %}
+        {% for comment in comment_list %}
+            <div class="comment">
+                <div class="user">
+                    {% trans "Author:" %} <a href="mailto:{{ comment.user_email }}">{{ comment.user_name }}</a>
+                    ({% trans "IP:" %} {{ comment.ip_address }})
+                    {% if comment.user_url %}<a href="{{ comment.user_url }}">{{ comment.user_url }}</a>{% endif %}
+                </div>
+                <div class="date">{{ comment.submit_date|date:'F d, Y h:i a' }}</div>
+                <div class="content">{{ comment.comment|linebreaks }}</div>
+            </div>
+        {% endfor %}
+        {% render_comment_form for object %}
+    </div>
+
+{% endblock %}

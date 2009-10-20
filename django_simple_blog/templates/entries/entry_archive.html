@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block content %}
+
+    <h2>{% trans "Entries by month" %}</h2>
+
+    {% regroup latest by creation_time|date:'Y' as latest_by_year %}
+    {% for year in latest_by_year %}
+        <span class="entries-index-bymonth">{{ year.grouper }}</span>
+        <ul class="entries-index-bymonth">
+        {% regroup year.list by creation_time|date:'F' as latest_by_month %}
+        {% for month in latest_by_month %}
+            <li>
+                <a href="{% url entries-archive-bymonth year.grouper month.grouper %}">{{ month.grouper }}</a> ({{ month.list|length }})
+            </li>
+        {% endfor %}
+        </ul>
+    {% endfor %}
+
+{% endblock %}

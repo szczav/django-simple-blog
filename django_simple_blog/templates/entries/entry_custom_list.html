@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block content %}
+
+    <h2>{{ title }}</h2>
+    {% include 'entries/entries.html' %}
+
+    <div id="navigation">
+    {% if has_previous %}
+        <a id="next_page" href="{% url entries-archive-custom option slug previous %}">{% trans "Next" %}</a>
+    {% endif %}
+    {% if has_next %}
+        <a id="previous_page" href="{% url entries-archive-custom option slug next %}">{% trans "Previous" %}</a>
+    {% endif %}
+    </div>
+
+{% endblock %}
