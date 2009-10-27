@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
 from django.contrib import admin
-from models import *
+from entries.models import *
 
 
 class CategoryAdmin(admin.ModelAdmin):

@@ -1,7 +1,7 @@
 #-*- coding: utf-8 -*-
 from django.conf.urls.defaults import *
 
-import views as custom_views
+import contact.views as custom_views
 
 
 urlpatterns = patterns('',

@@ -1,7 +1,7 @@
 #-*- coding: utf-8 -*-
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
-from django.db.models import permalink
+from django.forms.util import smart_unicode
 
 
 class Link(models.Model):
@@ -10,10 +10,6 @@ class Link(models.Model):
 
     def __unicode__(self):
         return smart_unicode(self.title)
-
-    @permalink
-    def get_absolute_url(self):
-        return self.url
 
     class Meta:
         ordering = ['title', 'url']

@@ -17,9 +17,9 @@ class Category(models.Model):
 
     @permalink
     def get_absolute_url(self):
-        return ('entry-list-custom', None, {'option' : 'categories',
-                                              'slug'   : self.slug,
-                                              'page'   : 1})
+        return ('entries-archive-custom', None, {'option': 'categories',
+                                                 'slug'  : self.slug,
+                                                 'page'  : '1'})
 
     class Meta:
         ordering = ['name', 'description']
@@ -35,9 +35,9 @@ class Tag(models.Model):
 
     @permalink
     def get_absolute_url(self):
-        return ('entry-list-custom', None, {'option' : 'tags',
-                                              'slug'   : self.slug,
-                                              'page'   : 1})
+        return ('entries-archive-custom', None, {'option': 'tags',
+                                                 'slug'  : self.slug,
+                                                 'page'  : '1'})
 
     class Meta:
         ordering = ['name',]
@@ -67,7 +67,7 @@ class Entry(models.Model):
 
     @permalink
     def get_absolute_url(self):
-        return ('entry-detail', None, {'slug' : self.slug})
+        return ('entries-detail', None, {'slug' : self.slug})
 
     class Meta:
         ordering = ['-creation_time', '-modification_time', 'title']

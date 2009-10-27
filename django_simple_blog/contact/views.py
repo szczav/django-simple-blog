@@ -8,7 +8,7 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.utils.translation import ugettext as _
 
-from forms import ContactForm
+from contact.forms import ContactForm
 
 
 def contact(request, contact_form=ContactForm, template_name='contact/form.html'):
@@ -31,8 +31,8 @@ def contact(request, contact_form=ContactForm, template_name='contact/form.html'
             try:
                 send_mail(subject, _("Mail from %s %s\n\n %s" % (site_name, message, sender_name)), sender_email, recipients)
             except BadHeaderError:
-                return HttpResponseRedirect(reverse('contact-confirmation'))
-            return HttpResponseRedirect(reverse('contact-error'))
+                return HttpResponseRedirect(reverse('contact-error'))
+            return HttpResponseRedirect(reverse('contact-confirmation'))
     else:
         form = contact_form()
 

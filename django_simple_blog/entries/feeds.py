@@ -5,7 +5,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.sites.models import Site
 from django.conf import settings
 
-from models import Entry, Category
+from entries.models import Entry, Category
 
 
 site_name = Site.objects.get(pk=settings.SITE_ID).name

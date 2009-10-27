@@ -15,8 +15,13 @@ def show_tags(tag_num):
 
     all_entries_count = max(entries_count)
     tags_dict = tags.values('name', 'slug', 'entries_count')
+
     for tag in tags_dict:
-        tag['font'] = float(tag['entries_count']) / all_entries_count * 200
+        try:
+            tag['font'] = float(tag['entries_count']) / all_entries_count * 200
+        # if there aren't any entries connected with this tag
+        except ZeroDivisionError:
+            del tag
     return {'tags': tags_dict}
 
 @register.inclusion_tag('entries/archive_bymonth.html')

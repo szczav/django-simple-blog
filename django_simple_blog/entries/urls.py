@@ -1,14 +1,19 @@
 #-*- coding: utf-8 -*-
 from django.conf.urls.defaults import *
 
-from models import Entry
-import views as custom_views
-from feeds import LatestEntries, LatestEntriesByCategory
+from entries.models import Entry
+import entries.views as custom_views
+from entries.feeds import LatestEntries, LatestEntriesByCategory
 
 
-entries_per_page = 10
+mainpage_entries = 10   # number of pages on main page
+entries_per_page = 20   # number of pages per page (without main page)
+
+
 custom_list_fields = 'categories|tags'
 
+mainpage_entries_list_dict = {'queryset'   : Entry.objects.all(),
+                              'paginate_by': mainpage_entries}
 entries_list_dict = {'queryset'   : Entry.objects.all(),
                      'paginate_by': entries_per_page}
 entries_custom_list_dict = {'paginate_by': entries_per_page}
@@ -24,7 +29,7 @@ feed_dict = {'latest'  : LatestEntries,
 
 urlpatterns = patterns('',
     # entries list
-    url(r'^/?$', 'django.views.generic.list_detail.object_list', entries_list_dict, 'entries-main'),
+    url(r'^/?$', 'django.views.generic.list_detail.object_list', mainpage_entries_list_dict, 'entries-main'),
     url(r'^entries/(?P<page>\d+)/$', 'django.views.generic.list_detail.object_list', entries_list_dict, name='entries-archive'),
 
     # entries list by custom field
@@ -41,5 +46,5 @@ urlpatterns = patterns('',
     url(r'^comments/', include('django.contrib.comments.urls')),
 
     # rss
-    url(r'^rss/(?P<url>.*)/$', 'django.contrib.syndication.views.feed', {'feed_dict': feed_dict}),
+    url(r'^rss/(?P<url>.*)/$', 'django.contrib.syndication.views.feed', {'feed_dict': feed_dict}, 'entries-feeds'),
 )
