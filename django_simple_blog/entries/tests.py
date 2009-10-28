@@ -12,7 +12,7 @@ class EntriesCustomViewsTests(TestCase):
     """
 
     def setUp(self):
-        self.category = Category.objects.create(name='Test category', slug='test-category', description='test description')
+        self.category = Category.objects.create(name='Test category', slug='test-category')
         self.tag = Tag.objects.create(name='test tag', slug='test-tag')
 
     def tearDown(self):
@@ -49,7 +49,7 @@ class ModelsTests(TestCase):
     Test Category, Tag and Entry models.
     """
     def setUp(self):
-        self.category = Category.objects.create(name='Test category', slug='test-category', description='test description')
+        self.category = Category.objects.create(name='Test category', slug='test-category')
         self.tag = Tag.objects.create(name='test tag', slug='test-tag')
         self.user = User.objects.create_user('Steve', 'steve@test.com', 'password')
         self.entry = Entry.objects.create(title='Entry test title', slug='entry-test-title', content='test content', author=self.user)
@@ -82,7 +82,8 @@ class FeedsTests(TestCase):
     Test feeds.
     """
     def setUp(self):
-        self.category = Category.objects.create(name='Test category', slug='test-category', description='test description')
+        self.category = Category.objects.create(name='Test category', slug='test-category')
+        self.tag = Tag.objects.create(name='super tag', slug='super-tag')
 
     def tearDown(self):
         self.category.delete()
@@ -93,5 +94,10 @@ class FeedsTests(TestCase):
 
     def test_latest_entries_by_category_feed(self):
         url = "%s/%s" % ('category', self.category.slug)
+        response = self.client.get(reverse('entries-feeds', args=[url]))
+        self.assertEqual(response.status_code, 200)
+
+    def test_latest_entries_by_tag_feed(self):
+        url = "%s/%s" % ('tag', self.tag.slug)
         response = self.client.get(reverse('entries-feeds', args=[url]))
         self.assertEqual(response.status_code, 200)

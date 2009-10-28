@@ -12,6 +12,9 @@ class ContactTests(TestCase):
     """
 
     def setUp(self):
+        """
+        Set valid form data.
+        """
         self.valid_data={'subject': 'Test subject',
                          'sender_name': 'Steve Tester',
                          'sender_email': 'test@example.com',
@@ -19,6 +22,9 @@ class ContactTests(TestCase):
                          'cc_myself': 'True'}
 
     def test_contact_form(self):
+        """
+        Check if contact form validation is working properly.
+        """
         invalid_data_dicts = [
             # Empty subject
             {'data': {'subject': '',
@@ -45,6 +51,10 @@ class ContactTests(TestCase):
         self.failUnless(form.is_valid())
 
     def test_send_mail(self):
+        """
+        Send valid form data by POST and check if email was send with correct
+        headers and content.
+        """
         response = self.client.post(reverse('contact-form'), self.valid_data, follow=True)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(mail.outbox), 1)
