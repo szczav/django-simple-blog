@@ -8,9 +8,11 @@ from django.db.models import permalink
 
 
 class Category(models.Model):
+    """
+    Entries categories.
+    """
     name = models.CharField(_('Category'), max_length=50, unique=True)
     slug = models.SlugField(_('Slug'), unique=True)
-    description = models.CharField(_('Description'), max_length=250, blank=True, null=True)
 
     def __unicode__(self):
         return smart_unicode(self.name)
@@ -22,7 +24,7 @@ class Category(models.Model):
                                                  'page'  : '1'})
 
     class Meta:
-        ordering = ['name', 'description']
+        ordering = ['name',]
         verbose_name = _('Category')
         verbose_name_plural = _('Categories')
 
