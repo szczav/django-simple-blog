@@ -29,6 +29,9 @@ class Category(models.Model):
         verbose_name_plural = _('Categories')
 
 class Tag(models.Model):
+    """
+    Entries tags.
+    """
     name = models.CharField(_('Tag'), max_length=30, unique=True)
     slug = models.SlugField(_('Slug'), max_length=30, unique=True)
 
@@ -47,6 +50,9 @@ class Tag(models.Model):
         verbose_name_plural = _('Tags')
 
 class Entry(models.Model):
+    """
+    Entries.
+    """
     title = models.CharField(_('Topic'), max_length=100)
     slug = models.SlugField(_('Slug'), max_length=100, unique=True)
     categories = models.ManyToManyField(Category, verbose_name=_('Category'))
@@ -56,8 +62,11 @@ class Entry(models.Model):
     creation_time = models.DateTimeField(_('Creation time'), auto_now_add=True)
     modification_time = models.DateTimeField(_('Modification time'), auto_now=True)
 
-    # ping google (works only if website is registered on Google Webmaster Tools)
     def save(self, force_insert=False, force_update=False):
+        """
+        Ping google. Works only if website is registered on Google Webmaster
+        Tools.
+        """
         super(Entry, self).save(force_insert, force_update)
         try:
             ping_google()

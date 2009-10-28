@@ -12,6 +12,10 @@ from contact.forms import ContactForm
 
 
 def contact(request, contact_form=ContactForm, template_name='contact/form.html'):
+    """
+    Create contact form or send message (after proper validation) to admin's
+    email (set in settings.py).
+    """
     if request.method == 'POST':
         form = contact_form(request.POST)
         if form.is_valid():

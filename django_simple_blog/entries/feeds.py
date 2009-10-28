@@ -12,6 +12,10 @@ site_name = Site.objects.get(pk=settings.SITE_ID).name
 
 
 class LatestEntries(Feed):
+    """
+    Main feed - shows latest entries in blog (doesn't matter from which
+    category).
+    """
     title = site_name
     description = _("Latest entries")
     link = "/"
@@ -22,6 +26,9 @@ class LatestEntries(Feed):
         return Entry.objects.all()[:10]
 
 class LatestEntriesByCategory(Feed):
+    """
+    Show latest entries from chosen category.
+    """
     title = site_name
     link = "/"
     title_template = "feeds/latest_title.html"
@@ -40,6 +47,9 @@ class LatestEntriesByCategory(Feed):
         return Entry.objects.filter(categories=obj)[:10]
 
 class LatestEntriesByTag(Feed):
+    """
+    Show latest entries which were conected with chosen tag.
+    """
     title = site_name
     link = "/"
     title_template = "feeds/latest_title.html"

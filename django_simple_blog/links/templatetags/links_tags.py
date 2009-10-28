@@ -7,4 +7,7 @@ register = template.Library()
 
 @register.inclusion_tag('links/links.html')
 def show_links():
+    """
+    Show links.
+    """
     return {'links': Link.objects.all()}
