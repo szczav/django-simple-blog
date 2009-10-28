@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 
 from entries.models import Category, Tag, Entry
 
-# TODO test urls (check with non-default templates and options)
+
 class EntriesCustomViewsTests(TestCase):
     """
     Test custom views without entries in database.
