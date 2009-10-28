@@ -63,6 +63,9 @@ a:hover, a:link, a:visited, a:active {text-decoration: underline; color: #6B6B2E
 #menu .section a:hover {text-decoration: underline;}
 #menu .section a:link {color: #666666;}
 #menu .section a:visited {color: #666666;}
+#menu #feeds.section {margin-top: 10px; vertical-align: middle; padding-top: 5px; font-size: 15px;}
+#menu #feeds.section a {font-style: normal; font-size: 15px;}
+#menu #feeds.section .img {border: 0;}
 #menu #certificates.section {margin-top: 30px; text-align: center;}
 #menu #certificates.section img {border: 0; margin-bottom: 10px;}
 

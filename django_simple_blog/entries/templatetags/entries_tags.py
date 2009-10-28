@@ -1,6 +1,8 @@
 #-*- coding: utf-8 -*-
 from django import template
 from django.db.models import Count
+from django.core.urlresolvers import reverse
+
 from entries.models import Tag, Entry
 
 register = template.Library()
@@ -28,3 +30,12 @@ def show_tags(tag_num):
 def show_archive_bymonth(month_num):
     months = Entry.objects.all().dates('creation_time', 'month', 'DESC')[:month_num]
     return {'months': months}
+
+@register.simple_tag
+def show_feeds(option=None, slug=None, object_name=None):
+    if option is not None and slug is not None:
+        if option == 'categories':
+            return ', <a href="%s">%s</a>' % (reverse('entries-feeds', args=['category/%s' % slug]), object_name)
+        elif option == 'tags':
+            return ', <a href="%s">%s</a>' % (reverse('entries-feeds', args=['tag/%s' % slug]), object_name)
+    return ''

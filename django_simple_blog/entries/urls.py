@@ -3,7 +3,7 @@ from django.conf.urls.defaults import *
 
 from entries.models import Entry
 import entries.views as custom_views
-from entries.feeds import LatestEntries, LatestEntriesByCategory
+from entries.feeds import *
 
 
 mainpage_entries = 10   # number of pages on main page
@@ -24,7 +24,8 @@ entries_archive_month_dict = {'queryset'    : Entry.objects.all(),
 entry_detail_dict = {'queryset': Entry.objects.all()}
 
 feed_dict = {'latest'  : LatestEntries,
-             'category': LatestEntriesByCategory}
+             'category': LatestEntriesByCategory,
+             'tag'     : LatestEntriesByTag}
 
 
 urlpatterns = patterns('',

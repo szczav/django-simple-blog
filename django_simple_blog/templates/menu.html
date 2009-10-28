@@ -2,6 +2,15 @@
 {% load entries_tags %}
 {% load links_tags %}
 
+<div id="feeds" class="section">
+    <img src="{{ MEDIA_URL }}images/rss.png" alt="RSS logo" /> RSS: <a href="{% url entries-feeds 'latest' %}">{% trans "latest" %}</a>
+    {% if option and slug %}
+        {% show_feeds option slug object_name %}
+    {% else %}
+        {% show_feeds %}
+    {% endif %}
+</div>
+
 <div id="home" class="section">
     <h4>{% trans "Main" %}</h4>
     <ul>
