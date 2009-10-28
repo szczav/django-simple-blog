@@ -7,6 +7,8 @@ a:hover, a:link, a:visited, a:active {text-decoration: underline; color: #6B6B2E
 #header {height: 60px; background-color: #096E20; color: #FFFFFF;}
 #header #title {padding: 10px 0 10px 30px; font-size: 26px; font-family: "Trebuchet MS",sans-serif; font-style: italic; margin: 0px;}
 #header #title a:visited {text-decoration: none; color: #FFFFFF;}
+#header #title a:link {text-decoration: none; color: #FFFFFF;}
+#header #title a:active {text-decoration: none; color: #FFFFFF;}
 #header #title a:hover {text-decoration: none; color: #FFFFFF;}
 
 /* Entries */
