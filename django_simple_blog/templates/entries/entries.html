@@ -1,5 +1,6 @@
 {% load i18n %}
 {% load comments %}
+{% load entries_tags %}
 
 {% for object in object_list %}
     <div class="entry">
@@ -23,7 +24,7 @@
             {% endfor %}
         </div>
         
-        <div class="content">{{ object.content|linebreaks|truncatewords_html:'100' }}</div>
+        <div class="content">{{ object.content|parse_text|truncatewords_html:'100' }}</div>
 
         {% get_comment_count for object as comment_count %}
         <a class="read-more" href="{% url entries-detail object.slug %}">{% trans "Read more" %}</a> |

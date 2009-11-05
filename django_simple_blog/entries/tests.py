@@ -4,6 +4,7 @@ from django.test import TestCase
 from django.contrib.auth.models import User
 
 from entries.models import Category, Tag, Entry
+from entries.text_parser import TextParser
 
 
 class EntriesCustomViewsTests(TestCase):
@@ -77,6 +78,7 @@ class ModelsTests(TestCase):
         response = self.client.get(self.entry.get_absolute_url())
         self.assertEqual(response.status_code, 200)
 
+
 class FeedsTests(TestCase):
     """
     Test feeds.
@@ -101,3 +103,64 @@ class FeedsTests(TestCase):
         url = "%s/%s" % ('tag', self.tag.slug)
         response = self.client.get(reverse('entries-feeds', args=[url]))
         self.assertEqual(response.status_code, 200)
+
+
+class TextParserTests(TestCase):
+    """
+    Test text parser.
+    """
+    _test_tags = {'b': '<strong>%(content)s</strong>',
+                  'i': '<i>%(content)s</i>',
+                  'url': '<a href="%(param)s">%(content)s</a>',
+                  'img': '<img src="%(content)s" alt="%(param)s" />'}
+
+    _text_with_html_tags = """\
+<p>This is <b>sample</b> text.</p> It contains standard HTML tags.\
+<a href='http://www.test.com'><img src='testme.png'></a>\
+"""
+    _text_without_html_tags = """\
+This is sample text. It contains standard HTML tags.\
+"""
+    _text_with_tags = """\
+This is [b]sample[/b] text. [b]It contains standard HTML tags.[/b]\
+I hope it will [i]help[/i]. [url "http://www.wp.pl"]this is 1st link - yeah[/url]\
+[img "image description"]path/to/some/img.png[/img]\
+"""
+    _parsed_text_with_tags = """\
+This is <strong>sample</strong> text. <strong>It contains standard HTML tags.</strong>\
+I hope it will <i>help</i>. <a href="http://www.wp.pl">this is 1st link - yeah</a>\
+<img src="path/to/some/img.png" alt="image description" />\
+"""
+
+    _text_with_linebreaks = """\
+section 1\n\n\
+section 2\n\n\
+section 3\nsubsection\n\
+"""
+
+    _parsed_text_with_linebreaks = """\
+<p>section 1</p>\n\n\
+<p>section 2</p>\n\n\
+<p>section 3<br />subsection<br /></p>\
+"""
+
+    def setUp(self):
+        self.parser = TextParser(self._test_tags)
+
+    def test_remove_html_tags(self):
+        output_text = self.parser.remove_html_tags(self._text_with_html_tags)
+        self.assertEqual(output_text, self._text_without_html_tags)
+
+    def test_replace_linebreaks(self):
+        output_text = self.parser.replace_linebreaks(self._text_with_linebreaks)
+        self.assertEqual(output_text, self._parsed_text_with_linebreaks)
+
+    def test_parse_tags(self):
+        output_text = self.parser.parse_tags(self._text_with_html_tags)
+        self.assertEqual(output_text, self._text_with_html_tags)
+
+        output_text = self.parser.parse_tags(self._text_without_html_tags)
+        self.assertEqual(output_text, self._text_without_html_tags)
+
+        output_text = self.parser.parse_tags(self._text_with_tags)
+        self.assertEqual(output_text, self._parsed_text_with_tags)

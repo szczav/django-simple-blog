@@ -2,8 +2,10 @@
 from django import template
 from django.db.models import Count
 from django.core.urlresolvers import reverse
+from django.utils.safestring import mark_safe
 
 from entries.models import Tag, Entry
+from entries.text_parser import TextParser
 
 register = template.Library()
 
@@ -54,3 +56,9 @@ def show_feeds(option=None, slug=None, object_name=None):
         elif option == 'tags':
             return ', <a href="%s">%s</a>' % (reverse('entries-feeds', args=['tag/%s' % slug]), object_name)
     return ''
+
+@register.filter
+def parse_text(text):
+    parser = TextParser()
+    parsed_text = parser.parse(text)
+    return mark_safe(parsed_text)

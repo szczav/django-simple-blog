@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load i18n %}
 {% load comments %}
+{% load entries_tags %}
 
 {% block content %}
 
@@ -25,7 +26,7 @@
             {% endfor %}
         </div>
 
-        <div class="content">{{ object.content|linebreaks }}</div>
+        <div class="content">{{ object.content|parse_text }}</div>
     </div>
 
     <div class="comments">
