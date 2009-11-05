@@ -20,7 +20,7 @@ a:hover, a:link, a:visited, a:active {text-decoration: underline; color: #6B6B2E
 #main .entry .tags a {margin: 0 2px 0 2px;}
 #main .entry .categories {font-size: 14px; width: 48%;}
 #main .entry .categories a {margin: 0 2px 0 2px;}
-#main .entry .content {text-align: justify;}
+#main .entry .content {text-align: justify; margin-top: 5px; margin-bottom: 10px;}
 #main .comments {border-top: 1px solid #E6E6B3;}
 #main #navigation {text-align: center; margin: 20px 5px 10px 5px}
 #main #navigation a#next_page, a#previous_page {font-weight: bold;}
