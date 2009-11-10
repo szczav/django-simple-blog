@@ -1,3 +1,0 @@
-{% for tag in tags|dictsort:"name" %}
-    <a href="{% url entries-archive-custom 'tags' tag.slug 1 %}" class="tag" style="font-size: {{ tag.font }}%;">{{ tag.name }}</a>
-{% endfor %}
