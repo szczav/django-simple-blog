@@ -10,7 +10,7 @@ from entries.text_parser import TextParser
 register = template.Library()
 
 
-@register.inclusion_tag('tags.html')
+@register.inclusion_tag('entries/tags.html')
 def show_tags(tag_num):
     """
     Show tags which are the most popular and sets their font size (more popular
