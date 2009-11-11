@@ -62,3 +62,9 @@ def parse_text(text):
     parser = TextParser()
     parsed_text = parser.parse(text)
     return mark_safe(parsed_text)
+
+@register.simple_tag
+def user_name_generator(full_name, username):
+    if full_name == '':
+        return username
+    return full_name
