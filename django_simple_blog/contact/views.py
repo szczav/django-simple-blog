@@ -11,7 +11,8 @@ from django.utils.translation import ugettext as _
 from contact.forms import ContactForm
 
 
-def contact(request, contact_form=ContactForm, template_name='contact/form.html'):
+def contact(request, contact_form=ContactForm, template_name='contact/form.html',
+            success_url=None, failure_url=None):
     """
     Create contact form or send message (after proper validation) to admin's
     email (set in settings.py).
@@ -35,8 +36,8 @@ def contact(request, contact_form=ContactForm, template_name='contact/form.html'
             try:
                 send_mail(subject, _("Mail from %s %s\n\n %s" % (site_name, message, sender_name)), sender_email, recipients)
             except BadHeaderError:
-                return HttpResponseRedirect(reverse('contact-error'))
-            return HttpResponseRedirect(reverse('contact-confirmation'))
+                return HttpResponseRedirect(reverse('contact-error') if failure_url is None else failure_url)
+            return HttpResponseRedirect(reverse('contact-confirmation') if success_url is None else success_url)
     else:
         form = contact_form()
 
