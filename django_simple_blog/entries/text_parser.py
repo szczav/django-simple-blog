@@ -1,7 +1,8 @@
 #-*- coding: utf-8 -*-
 import re
 
-
+# TODO p align=param tag?
+# TODO correct split (remove_html_tags) to recognize separately start and end tags
 class TextParser(object):
     """
     Text parser allow to remove HTML tags from text and introduce his own
@@ -23,12 +24,12 @@ class TextParser(object):
                    'url': '<a href="%(param)s">%(content)s</a>',
                    'img': '<img src="%(content)s" alt="%(param)s" />'}
 
-    def __init__(self, valid_tags=None):
+    def __init__(self, custom_tags=None):
         """
         Set new dictionary of tags.
         """
-        if valid_tags is not None:
-            self._valid_tags = valid_tags
+        if custom_tags is not None:
+            self._valid_tags.update(custom_tags)
 
     def parse(self, text):
         """
@@ -38,15 +39,37 @@ class TextParser(object):
         text = self.remove_html_tags(text)
         text = self.replace_linebreaks(text)
         text = self.parse_tags(text)
+        text = self.remove_invalid_tags(text)
         return text
+
+    def escape_html(self, text):
+        """
+        Escape HTML tags.
+        """
+        return text.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace('"', '&quot;').replace("'", '&#39;')
 
     def remove_html_tags(self, text):
         """
-        Remove all HTML tags from text.
+        Remove all HTML tags from text. Only tags placed between [code][/code]
+        are escaped.
         """
-        return re.sub(r'''<[a-zA-Z0-9/=.:;\'" ]+>''', '', text)
+        def is_odd(n):
+            return bool(n%2)
+
+        text_blocks = re.split(r'\[/?code\]', text)
+        output_text = ''
+
+        for i, text_block in enumerate(text_blocks):
+            if is_odd(i):
+                output_text += "[code]%s[/code]" % self.escape_html(text_block)
+                continue
+            output_text += re.sub(r'<[a-zA-Z0-9/=.:;\'" ]+>', '', text_block)
+        return output_text
 
     def replace_linebreaks(self, text):
+        """
+        Replace linebreaks to <p></p> and <br> tags.
+        """
         text = re.sub(r'\r\n|\r|\n', '\n', text)
  	paragraphs = re.split('\n{2,}', text)
  	paragraphs = ['<p>%s</p>' % p.replace('\n', '<br />') for p in paragraphs]
@@ -69,3 +92,9 @@ class TextParser(object):
             text = re.sub(tag_expr, _tag_convert, text)
 
         return text
+
+    def remove_invalid_tags(self, text):
+        """
+        Remove all [] tags.
+        """
+        return re.sub(r'''\[[a-zA-Z0-9/=.:;\'" ]+\]''', '', text)
