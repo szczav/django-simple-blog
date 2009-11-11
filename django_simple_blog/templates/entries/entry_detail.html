@@ -15,14 +15,14 @@
         <div class="tags">
             {% trans "Tags" %}:
             {% for tag in object.tags.all %}
-                <a href="{% url entries-archive-custom 'tags' tag.slug 1 %}">{{ tag.name }}</a>
+                <a href="{{ tag.get_absolute_url }}">{{ tag.name }}</a>
             {% endfor %}
         </div>
 
         <div class="categories">
             {% trans "Categories" %}:
             {% for category in object.categories.all %}
-                <a href="{% url entries-archive-custom 'categories' category.slug 1 %}">{{ category.name }}</a>
+                <a href="{{ category.get_absolute_url }}">{{ category.name }}</a>
             {% endfor %}
         </div>
 
