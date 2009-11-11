@@ -15,7 +15,7 @@ def custom_list(request, option, slug, page, paginate_by=10, template_name='entr
     model = Entry.__dict__[option].field.rel.to
     object_name = get_object_or_404(model, slug=slug).name
     model_verbose_name = model._meta.verbose_name.__unicode__()
-    entries = Entry.objects.filter(**{str(option+'__slug') : slug})
+    entries = Entry.rel_objects.filter(**{str(option+'__slug') : slug})
 
     try:
         page = int(page)

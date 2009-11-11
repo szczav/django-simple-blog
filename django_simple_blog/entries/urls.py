@@ -6,16 +6,13 @@ import entries.views as custom_views
 from entries.feeds import *
 
 
-mainpage_entries = 10   # number of pages on main page
-entries_per_page = 20   # number of pages per page (without main page)
+entries_per_page = 20   # number of pages per page
 
 
-mainpage_entries_list_dict = {'queryset'   : Entry.objects.all(),
-                              'paginate_by': mainpage_entries}
-entries_list_dict = {'queryset'   : Entry.objects.all(),
+entries_list_dict = {'queryset'   : Entry.rel_objects.all(),
                      'paginate_by': entries_per_page}
 entries_custom_list_dict = {'paginate_by': entries_per_page}
-entries_archive_month_dict = {'queryset'    : Entry.objects.all(),
+entries_archive_month_dict = {'queryset'    : Entry.rel_objects.all(),
                               'date_field'  : 'creation_time',
                               'month_format': '%B',
                               'allow_empty' : True}
@@ -28,7 +25,7 @@ feed_dict = {'latest'  : LatestEntries,
 
 urlpatterns = patterns('',
     # entries list
-    url(r'^/?$', 'django.views.generic.list_detail.object_list', mainpage_entries_list_dict, 'entries-main'),
+    url(r'^/?$', 'django.views.generic.list_detail.object_list', entries_list_dict, 'entries-main'),
     url(r'^entries/(?P<page>\d+)/$', 'django.views.generic.list_detail.object_list', entries_list_dict, name='entries-archive'),
 
     # entries list by custom field (category or tag)

@@ -6,6 +6,8 @@ from django.contrib.auth.models import User
 from django.contrib.sitemaps import ping_google
 from django.db.models import permalink
 
+from entries.managers import *
+
 
 class Category(models.Model):
     """
@@ -61,6 +63,9 @@ class Entry(models.Model):
     author = models.ForeignKey(User, verbose_name=_('Author'))
     creation_time = models.DateTimeField(_('Creation time'), auto_now_add=True)
     modification_time = models.DateTimeField(_('Modification time'), auto_now=True)
+
+    objects = models.Manager()
+    rel_objects = EntryRelatedManager()
 
     def save(self, force_insert=False, force_update=False):
         """
